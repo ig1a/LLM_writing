@@ -143,7 +143,7 @@ Page({
     // 创建循环动画
     this.scanTimer = setInterval(() => {
       if (moveUp) {
-        that.animation.translateY(200).step();
+        that.animation.translateY(155).step();
       } else {
         that.animation.translateY(0).step();
       }
