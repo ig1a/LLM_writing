@@ -219,11 +219,11 @@ Page({
       that.setData({ isLoading: false });
       
       // 保存当前书籍信息到全局
-      getApp().globalData.currentBook = res.data;
+      getApp().globalData.currentBook = res;
       
       // 跳转到聊天页面
       wx.navigateTo({
-        url: `/pages/chat/chat?bookId=${res.data.id}&title=${res.data.title}`
+        url: `/pages/chat/chat?bookId=${res.id}&title=${encodeURIComponent(res.title)}`
       });
       
     }).catch(err => {

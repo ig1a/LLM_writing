@@ -3,15 +3,15 @@
 const { sendChatMessage } = require('../../utils/request.js');
 
 // 生成唯一ID的函数
-const generateId = () => {
+function generateId() {
   return 'msg_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 };
 
 // 格式化时间
-const formatTime = (date) => {
+function formatTime(date) {
   const hour = date.getHours();
   const minute = date.getMinutes();
-  return [hour, minute].map(n => n < 10 ? '0' + n : n).join(':');
+  return [hour, minute].map(function(n) { return n < 10 ? '0' + n : n; }).join(':');
 };
 
 Page({
@@ -38,14 +38,15 @@ Page({
    */
   onLoad: function (options) {
     // 获取页面参数
-    const { bookId, title } = options;
+    var bookId = options.bookId;
+    var title = options.title;
     
     if (!bookId) {
       wx.showToast({
         title: '缺少书籍信息',
         icon: 'none'
       });
-      setTimeout(() => {
+      setTimeout(function() {
         wx.navigateBack();
       }, 1500);
       return;
@@ -53,7 +54,7 @@ Page({
     
     // 设置书籍基本信息
     this.setData({
-      bookId,
+      bookId: bookId,
       bookInfo: {
         title: title || '未知书籍',
         isbn: bookId
@@ -61,7 +62,7 @@ Page({
     });
     
     // 从全局获取完整书籍信息
-    const app = getApp();
+    var app = getApp();
     if (app.globalData.currentBook) {
       this.setData({
         bookInfo: app.globalData.currentBook
@@ -116,13 +117,13 @@ Page({
    */
   sendMessage: function() {
     // 检查是否有输入内容
-    const message = this.data.inputMessage.trim();
+    var message = this.data.inputMessage.trim();
     if (!message || this.data.isThinking) {
       return;
     }
     
     // 生成用户消息对象
-    const userMessage = {
+    var userMessage = {
       id: generateId(),
       type: 'user',
       content: message,
@@ -130,8 +131,11 @@ Page({
     };
     
     // 添加到消息列表
+    var newMessageList = this.data.messageList.slice();
+    newMessageList.push(userMessage);
+    
     this.setData({
-      messageList: [...this.data.messageList, userMessage],
+      messageList: newMessageList,
       inputMessage: '',
       isThinking: true
     });
@@ -140,45 +144,49 @@ Page({
     this.scrollToBottom();
     
     // 调用API发送消息
-    const { bookId } = this.data;
-    const chatHistory = this.formatChatHistoryForAPI();
+    var bookId = this.data.bookId;
+    var chatHistory = this.formatChatHistoryForAPI();
     
-    sendChatMessage(bookId, message, chatHistory).then(res => {
+    var that = this;
+    sendChatMessage(bookId, message, chatHistory).then(function(res) {
       console.log('AI回复：', res);
       
       // 生成AI回复消息对象
-      const aiMessage = {
+      var aiMessage = {
         id: generateId(),
         type: 'ai',
-        content: res.data.response,
+        content: res.message, // 注意：使用res.message而不是res.data.response
         time: formatTime(new Date())
       };
       
       // 添加到消息列表
-      this.setData({
-        messageList: [...this.data.messageList, aiMessage],
+      var updatedMessageList = that.data.messageList.slice();
+      updatedMessageList.push(aiMessage);
+      
+      that.setData({
+        messageList: updatedMessageList,
         isThinking: false
       });
       
       // 保存聊天记录到本地存储
-      this.saveChatHistory();
+      that.saveChatHistory();
       
       // 滚动到最新消息
-      this.scrollToBottom();
+      that.scrollToBottom();
       
-    }).catch(err => {
+    }).catch(function(err) {
       console.error('发送消息失败：', err);
       
       // 结束加载状态
-      this.setData({
+      that.setData({
         isThinking: false,
         showError: true,
         errorMessage: '网络异常，请重试'
       });
       
       // 自动隐藏错误提示
-      setTimeout(() => {
-        this.setData({
+      setTimeout(function() {
+        that.setData({
           showError: false
         });
       }, 3000);
@@ -189,25 +197,40 @@ Page({
    * 格式化聊天记录为API所需格式
    */
   formatChatHistoryForAPI: function() {
-    return this.data.messageList.map(msg => ({
-      role: msg.type === 'user' ? 'user' : 'assistant',
-      content: msg.content
-    }));
+    var history = [];
+    for (var i = 0; i < this.data.messageList.length; i++) {
+      var msg = this.data.messageList[i];
+      history.push({
+        role: msg.type === 'user' ? 'user' : 'assistant',
+        content: msg.content
+      });
+    }
+    return history;
   },
 
   /**
    * 保存聊天记录到本地存储
    */
   saveChatHistory: function() {
-    const { bookId, messageList } = this.data;
+    var bookId = this.data.bookId;
+    var messageList = this.data.messageList;
     
     try {
       // 存储当前书籍的聊天记录
-      wx.setStorageSync(`chat_history_${bookId}`, JSON.stringify(messageList));
+      wx.setStorageSync('chat_history_' + bookId, JSON.stringify(messageList));
       
       // 更新聊天记录索引
-      let chatIndex = wx.getStorageSync('chat_history_index') || [];
-      if (!chatIndex.includes(bookId)) {
+      var chatIndex = wx.getStorageSync('chat_history_index') || [];
+      var exists = false;
+      
+      for (var i = 0; i < chatIndex.length; i++) {
+        if (chatIndex[i] === bookId) {
+          exists = true;
+          break;
+        }
+      }
+      
+      if (!exists) {
         chatIndex.push(bookId);
         wx.setStorageSync('chat_history_index', chatIndex);
       }
@@ -221,10 +244,10 @@ Page({
    * 加载本地存储的聊天记录
    */
   loadLocalChatHistory: function() {
-    const { bookId } = this.data;
+    var bookId = this.data.bookId;
     
     try {
-      const chatHistory = wx.getStorageSync(`chat_history_${bookId}`);
+      var chatHistory = wx.getStorageSync('chat_history_' + bookId);
       if (chatHistory) {
         this.setData({
           messageList: JSON.parse(chatHistory)
@@ -239,11 +262,11 @@ Page({
    * 滚动到底部
    */
   scrollToBottom: function() {
-    const { messageList } = this.data;
+    var messageList = this.data.messageList;
     if (messageList.length > 0) {
-      const lastMessage = messageList[messageList.length - 1];
+      var lastMessage = messageList[messageList.length - 1];
       this.setData({
-        scrollToMessage: `msg-${lastMessage.id}`
+        scrollToMessage: 'msg-' + lastMessage.id
       });
     }
   },
@@ -252,8 +275,15 @@ Page({
    * 分享消息
    */
   shareMessage: function(e) {
-    const messageId = e.currentTarget.dataset.messageId;
-    const message = this.data.messageList.find(msg => msg.id === messageId);
+    var messageId = e.currentTarget.dataset.messageId;
+    var message = null;
+    
+    for (var i = 0; i < this.data.messageList.length; i++) {
+      if (this.data.messageList[i].id === messageId) {
+        message = this.data.messageList[i];
+        break;
+      }
+    }
     
     if (message) {
       wx.setClipboardData({
@@ -283,9 +313,10 @@ Page({
       loadingHistory: true
     });
     
+    var that = this;
     // 模拟加载更多历史消息
-    setTimeout(() => {
-      this.setData({
+    setTimeout(function() {
+      that.setData({
         loadingHistory: false,
         hasMoreHistory: false
       });
@@ -301,11 +332,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    const { bookInfo } = this.data;
+    var bookInfo = this.data.bookInfo;
     
     return {
-      title: `与《${bookInfo.title || '书籍'}》进行AI对话`,
-      path: `/pages/index/index`,
+      title: '与《' + (bookInfo.title || '书籍') + '》进行AI对话',
+      path: '/pages/index/index',
       imageUrl: bookInfo.coverUrl || '/images/share-image.png'
     };
   }

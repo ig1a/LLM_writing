@@ -51,8 +51,8 @@ Component({
    */
   methods: {
     // 检查并预览图片
-    checkAndPreviewImage() {
-      const content = this.data.content;
+    checkAndPreviewImage: function() {
+      var content = this.data.content;
       // 检查是否是图片链接
       if (content.includes('http') && this.isImageUrl(content)) {
         this.previewImage();
@@ -60,12 +60,13 @@ Component({
     },
     
     // 判断URL是否为图片
-    isImageUrl(url) {
+    isImageUrl: function(url) {
       // 检查URL是否以常见图片扩展名结尾
-      const imgExtensions = ['.jpeg', '.jpg', '.gif', '.png'];
-      const lowerUrl = url.toLowerCase();
+      var imgExtensions = ['.jpeg', '.jpg', '.gif', '.png'];
+      var lowerUrl = url.toLowerCase();
       
-      for (const ext of imgExtensions) {
+      for (var i = 0; i < imgExtensions.length; i++) {
+        var ext = imgExtensions[i];
         if (lowerUrl.endsWith(ext)) {
           return true;
         }
@@ -75,7 +76,7 @@ Component({
     },
     
     // 显示大图
-    previewImage() {
+    previewImage: function() {
       wx.previewImage({
         urls: [this.data.content],
         current: this.data.content
@@ -83,9 +84,10 @@ Component({
     },
     
     // 复制文本内容
-    copyText() {
+    copyText: function() {
+      var that = this;
       wx.setClipboardData({
-        data: this.data.content,
+        data: that.data.content,
         success: function() {
           wx.showToast({
             title: '已复制到剪贴板',
@@ -96,14 +98,15 @@ Component({
     },
     
     // 长按菜单
-    onLongPress() {
+    onLongPress: function() {
+      var that = this;
       wx.showActionSheet({
         itemList: ['复制文本', '分享'],
-        success: (res) => {
+        success: function(res) {
           if (res.tapIndex === 0) {
-            this.copyText();
+            that.copyText();
           } else if (res.tapIndex === 1) {
-            this.triggerEvent('share');
+            that.triggerEvent('share');
           }
         }
       });
