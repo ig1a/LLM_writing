@@ -1,0 +1,45 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <!-- 顶部标题区域 -->
+  <view class="header-container">
+    <view class="logo-container">
+      <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    </view>
+    <text class="app-title">书籍RAG聊天</text>
+  </view>
+  
+  <!-- 中间介绍区域 -->
+  <view class="intro-container md-card">
+    <view class="md-card-content">
+      <text class="md-title">欢迎使用书籍RAG聊天</text>
+      <text class="md-body intro-text">通过扫描书籍条形码，您可以与由书中内容驱动的AI进行对话，获取更深入的理解和洞察。</text>
+      
+      <view class="features-container">
+        <view class="feature-item">
+          <view class="feature-icon">📚</view>
+          <text class="feature-title">丰富资源</text>
+          <text class="feature-description">基于大量书籍内容，提供精准回答</text>
+        </view>
+        
+        <view class="feature-item">
+          <view class="feature-icon">🤖</view>
+          <text class="feature-title">智能对话</text>
+          <text class="feature-description">基于最新LLM技术，实现智能交互</text>
+        </view>
+        
+        <view class="feature-item">
+          <view class="feature-icon">🔍</view>
+          <text class="feature-title">深度理解</text>
+          <text class="feature-description">挖掘书籍深层含义，提供更多见解</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部按钮区域 -->
+  <view class="bottom-container">
+    <button class="scan-button md-btn-contained" bindtap="onScanTap">
+      <text class="scan-text">扫描书籍条形码</text>
+    </button>
+  </view>
+</view>

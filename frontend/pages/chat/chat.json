@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "AI聊天",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "chat-bubble": "/components/chat-bubble/chat-bubble",
+    "loading": "/components/loading/loading"
+  }
+}

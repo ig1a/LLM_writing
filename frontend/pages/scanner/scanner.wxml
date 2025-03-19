@@ -1,0 +1,72 @@
+<!-- pages/scanner/scanner.wxml -->
+<view class="scanner-container">
+  <!-- 相机模块 -->
+  <camera 
+    wx:if="{{cameraAuth}}" 
+    device-position="back" 
+    flash="off" 
+    binderror="onCameraError" 
+    class="camera-view"
+  ></camera>
+  
+  <!-- 未授权相机显示 -->
+  <view wx:else class="no-camera-container">
+    <view class="no-camera-icon">📷</view>
+    <text class="no-camera-text">请授权使用摄像头</text>
+    <button class="md-btn md-btn-contained auth-btn" bindtap="requestCameraAuth">授权相机权限</button>
+  </view>
+  
+  <!-- 扫码边框 -->
+  <view class="scan-area">
+    <view class="scan-border top-left"></view>
+    <view class="scan-border top-right"></view>
+    <view class="scan-border bottom-left"></view>
+    <view class="scan-border bottom-right"></view>
+    <view class="scan-line" animation="{{scanLineAnimation}}"></view>
+  </view>
+  
+  <!-- 提示文本 -->
+  <view class="tip-container">
+    <text class="tip-text">将书籍条形码放入框内，自动扫描</text>
+  </view>
+  
+  <!-- 加载状态 -->
+  <loading show="{{isLoading}}" text="识别中..." fullscreen="true"></loading>
+  
+  <!-- 底部按钮区域 -->
+  <view class="bottom-container">
+    <button class="scan-btn" bindtap="onScanTap" disabled="{{isLoading || !cameraAuth}}">
+      扫描条形码
+    </button>
+    <button class="cancel-btn" bindtap="onCancelTap">取消</button>
+  </view>
+  
+  <!-- 手动输入区域 -->
+  <view class="manual-input-container">
+    <text class="manual-input-tip">找不到条形码？</text>
+    <text class="manual-input-link" bindtap="showManualInput">手动输入ISBN</text>
+  </view>
+  
+  <!-- 手动输入模态框 -->
+  <view class="manual-modal" wx:if="{{showManualInputModal}}">
+    <view class="manual-modal-content md-card">
+      <view class="manual-modal-header">
+        <text class="manual-modal-title">手动输入ISBN</text>
+      </view>
+      <view class="manual-modal-body">
+        <input 
+          class="manual-input" 
+          placeholder="请输入书籍ISBN号码" 
+          type="number" 
+          maxlength="13" 
+          bindinput="onManualInput" 
+          value="{{manualIsbn}}"
+        />
+      </view>
+      <view class="manual-modal-footer">
+        <button class="md-btn md-btn-text cancel-modal-btn" bindtap="hideManualInput">取消</button>
+        <button class="md-btn md-btn-contained confirm-modal-btn" bindtap="submitManualInput">确认</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,26 @@
+<!-- components/chat-bubble/chat-bubble.wxml -->
+<view class="chat-bubble {{type === 'user' ? 'user-bubble' : 'ai-bubble'}} {{isLast ? 'last-bubble' : ''}}" bindlongpress="onLongPress">
+  <view class="bubble-container {{type === 'user' ? 'user-container' : 'ai-container'}}">
+    <!-- 头像区域 -->
+    <view class="avatar-container" wx:if="{{showAvatar}}">
+      <image 
+        class="avatar" 
+        src="{{avatar ? avatar : (type === 'user' ? defaultUserAvatar : defaultAiAvatar)}}"
+        mode="aspectFill"
+      ></image>
+    </view>
+    
+    <!-- 消息内容区域 -->
+    <view class="content-container {{type === 'user' ? 'user-content' : 'ai-content'}}">
+      <!-- 文本消息 -->
+      <view class="message md-shadow-1" bindtap="checkAndPreviewImage">
+        <text selectable="true">{{content}}</text>
+      </view>
+      
+      <!-- 时间显示 -->
+      <view class="time-container" wx:if="{{time}}">
+        <text class="time">{{time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

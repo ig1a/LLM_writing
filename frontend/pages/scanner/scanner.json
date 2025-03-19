@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "扫描条形码",
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#000000",
+  "usingComponents": {
+    "loading": "/components/loading/loading"
+  }
+}

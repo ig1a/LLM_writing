@@ -1,0 +1,281 @@
+/**app.wxss**/
+
+/* 全局样式 - Material Design 风格 */
+
+/* 重置样式 */
+page {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, button, input {
+  box-sizing: border-box;
+}
+
+/* Material Design 阴影 */
+.md-shadow-1 {
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 
+              0 1px 1px 0 rgba(0,0,0,0.14), 
+              0 1px 3px 0 rgba(0,0,0,0.12);
+}
+
+.md-shadow-2 {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 
+              0 2px 2px 0 rgba(0,0,0,0.14), 
+              0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+.md-shadow-3 {
+  box-shadow: 0 3px 3px -2px rgba(0,0,0,0.2), 
+              0 3px 4px 0 rgba(0,0,0,0.14), 
+              0 1px 8px 0 rgba(0,0,0,0.12);
+}
+
+/* Material Design 按钮 */
+.md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 88px;
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: background-color 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.md-btn-contained {
+  background-color: #6200EE;
+  color: white;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 
+              0 2px 2px 0 rgba(0,0,0,0.14), 
+              0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+.md-btn-outlined {
+  border: 1px solid #6200EE;
+  color: #6200EE;
+}
+
+.md-btn-text {
+  color: #6200EE;
+}
+
+/* Material Design 卡片 */
+.md-card {
+  position: relative;
+  border-radius: 4px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 
+              0 1px 1px 0 rgba(0,0,0,0.14), 
+              0 1px 3px 0 rgba(0,0,0,0.12);
+}
+
+.md-card-content {
+  padding: 16px;
+}
+
+.md-card-actions {
+  display: flex;
+  padding: 8px;
+}
+
+/* Material Design 输入框 */
+.md-input {
+  position: relative;
+  width: 100%;
+  padding: 16px 0 8px 0;
+  margin-bottom: 8px;
+}
+
+.md-input-field {
+  width: 100%;
+  padding: 4px 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  background: transparent;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.md-input-field:focus {
+  border-bottom: 2px solid #6200EE;
+}
+
+/* Material Design 标签 */
+.md-label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  transition: all 0.2s;
+  pointer-events: none;
+}
+
+.md-input-field:focus + .md-label,
+.md-input-field:not(:placeholder-shown) + .md-label {
+  top: 0;
+  font-size: 12px;
+  color: #6200EE;
+}
+
+/* Material Design 图标按钮 */
+.md-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  outline: none;
+  transition: background-color 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.md-icon-btn:active {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+/* 布局辅助类 */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* Material Design 排版 */
+.md-headline {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  margin: 0;
+}
+
+.md-title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  margin: 0;
+}
+
+.md-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0;
+}
+
+.md-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+}
+
+.md-caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin: 0;
+}
+
+/* 颜色类 */
+.primary-text {
+  color: #6200EE;
+}
+
+.secondary-text {
+  color: #03DAC6;
+}
+
+.error-text {
+  color: #B00020;
+}
+
+/* 间距类 */
+.margin-top {
+  margin-top: 16px;
+}
+
+.margin-bottom {
+  margin-bottom: 16px;
+}
+
+.padding {
+  padding: 16px;
+}
+
+/* 动画效果 */
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 浮动按钮 */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: #6200EE;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 
+              0 1px 18px 0 rgba(0,0,0,0.12), 
+              0 3px 5px -1px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
