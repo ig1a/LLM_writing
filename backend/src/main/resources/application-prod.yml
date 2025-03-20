@@ -1,0 +1,49 @@
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/book_chat?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}  # 从环境变量获取，默认值为root
+    password: ${DB_PASSWORD:root}  # 从环境变量获取，默认值为root
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 30
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+# 生产环境特定配置
+server:
+  tomcat:
+    max-threads: 200  # 最大工作线程数
+    min-spare-threads: 20  # 最小工作线程数
+
+# 安全配置
+app:
+  cors:
+    allowed-origins: "https://yourdomain.com"  # 生产环境中限制跨域来源
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+  
+  # 禁用模拟数据
+  mock:
+    enabled: false
+
+# 日志配置 - 生产环境下更精简
+logging:
+  level:
+    root: WARN
+    com.book.chat: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+  file:
+    name: logs/book-chat.log  # 日志文件路径
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB  # 日志文件大小上限
+      max-history: 30  # 保留的日志文件数量

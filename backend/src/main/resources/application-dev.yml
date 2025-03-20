@@ -1,0 +1,37 @@
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/book_chat?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 5  # 最小空闲连接数
+      maximum-pool-size: 10  # 最大连接数
+      idle-timeout: 600000  # 空闲连接超时时间，毫秒
+      max-lifetime: 1800000  # 连接的最大生命周期，毫秒
+      connection-timeout: 30000  # 连接超时时间，毫秒
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB  # 单个文件大小限制
+      max-request-size: 20MB  # 总上传数据大小限制
+
+# 开发环境特定配置
+app:
+  cors:
+    allowed-origins: "*"  # 允许所有来源的跨域请求
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"  # 允许的HTTP方法
+  
+  # 开发环境下可以启用模拟数据
+  mock:
+    enabled: true  # 启用模拟数据
+
+# 日志配置 - 开发环境下更详细
+logging:
+  level:
+    com.book.chat: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG

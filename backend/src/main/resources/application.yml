@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: dev  # 默认激活开发环境配置
+
+# 通用配置
+server:
+  port: 8080  # 应用端口
+  servlet:
+    context-path: /  # 应用根路径
+
+# MyBatis Plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml  # MyBatis XML映射文件位置
+  type-aliases-package: com.book.chat.entity # 实体类包路径
+  configuration:
+    map-underscore-to-camel-case: true  # 下划线转驼峰命名
+    cache-enabled: false  # 关闭缓存
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 控制台输出SQL日志
+  global-config:
+    db-config:
+      id-type: AUTO  # 主键策略
+      table-prefix: t_  # 表前缀
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.book.chat: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+
+# 应用自定义配置
+app:
+  jwt:
+    secret: YourJwtSecretKeyHereMustBeAtLeast32BytesLong  # JWT密钥
+    expiration: 86400000  # Token有效期，单位毫秒，默认24小时
+  llm:
+    api-url: https://api.openai.com/v1/chat/completions  # LLM API地址
+    model: gpt-3.5-turbo  # 默认模型
+    timeout: 30000  # API调用超时时间，单位毫秒
