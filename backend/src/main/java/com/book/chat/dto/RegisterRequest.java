@@ -3,12 +3,10 @@ package com.book.chat.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 /**
  * 注册请求DTO
  */
-@Data
 public class RegisterRequest {
     
     @NotBlank(message = "用户名不能为空")
@@ -23,4 +21,36 @@ public class RegisterRequest {
     private String nickname;  // 昵称
     
     private String openId;    // 微信OpenID
+    
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 }

@@ -1,0 +1,9 @@
+com\book\chat\entity\User.class
+com\book\chat\BookChatApplication.class
+com\book\chat\entity\ChatMessage.class
+com\book\chat\dto\LoginResponse.class
+com\book\chat\dto\RegisterRequest.class
+com\book\chat\dto\UserDTO.class
+com\book\chat\dto\LoginRequest.class
+com\book\chat\dto\BookDTO.class
+com\book\chat\entity\Book.class
