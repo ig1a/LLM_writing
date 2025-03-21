@@ -3,10 +3,12 @@
  */
 
 // 服务器基础URL
-var BASE_URL = 'https://api.example.com';
+// 修改为您的后端服务器地址，在本地开发时使用localhost
+var BASE_URL = 'http://localhost:8080';
 
 // 测试模式开关 - 设置为true使用本地测试数据，设置为false使用真实API
-var TEST_MODE = true;
+// 当后端服务准备就绪后，将此设置为false以连接真实后端
+var TEST_MODE = false;
 
 // 测试数据 - 用于在没有后端API情况下进行前端测试
 var TEST_DATA = {
@@ -30,7 +32,7 @@ var TEST_DATA = {
       publisher: '作家出版社',
       isbn: '9787506365437',
       cover: 'https://img2.doubanio.com/view/subject/l/public/s29053580.jpg',
-      description: '《活着》是余华的代表作，讲述了一个人一生的故事，这是一个历尽世间沧桑和磨难老人的人生感言，是一幕演绎人生苦难经历的戏剧。小说的叙事者"我"在去乡下收集民间歌谣的途中，遇到了一个爱讲故事的老人富贵，听他讲述了自己坎坷的人生经历。'
+      description: '《活着》是余华的代表作，讲述了一个人一生的故事，这是一个历经世间沧桑和磨难老人的人生感言，是一幕演绎人生苦难经历的戏剧。小说的叙事者"我"在去乡下收集民间歌谣的途中，遇到了一个爱讲故事的老人富贵，听他讲述了自己坎坷的人生经历。'
     },
     // 人类简史
     '9787508647357': {
@@ -144,14 +146,14 @@ var request = function(options) {
         }
         
         // 根据请求路径返回不同的测试数据
-        if (options.url === '/api/book/info') {
-          var barcode = options.data.barcode;
-          var bookInfo = TEST_DATA.books[barcode] || TEST_DATA.books.default;
+        if (options.url === '/api/books/isbn') {
+          var isbn = options.data.isbn;
+          var bookInfo = TEST_DATA.books[isbn] || TEST_DATA.books.default;
           resolve(bookInfo);
         } 
-        else if (options.url === '/api/chat/message') {
+        else if (options.url === '/api/chat/messages') {
           var bookId = options.data.bookId;
-          var message = options.data.message;
+          var message = options.data.content;
           var bookResponses = TEST_DATA.chatResponses[bookId] || TEST_DATA.chatResponses.default;
           
           // 检查消息中是否包含关键词
@@ -244,9 +246,9 @@ var request = function(options) {
  */
 var getBookInfo = function(barcode) {
   return request({
-    url: '/api/book/info',
-    method: 'POST',
-    data: { barcode: barcode }
+    url: '/api/books/isbn',  // 修改为后端实际API路径
+    method: 'GET',           // 修改为GET请求
+    data: { isbn: barcode }  // 参数名称修改为isbn
   });
 };
 
@@ -262,11 +264,11 @@ var sendChatMessage = function(bookId, message, history) {
     history = [];
   }
   return request({
-    url: '/api/chat/message',
+    url: '/api/chat/messages',  // 修改为后端实际API路径
     method: 'POST',
     data: {
       bookId: bookId,
-      message: message,
+      content: message,       // 参数名称修改为content，与后端一致
       history: history
     }
   });
