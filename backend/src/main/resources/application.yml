@@ -8,6 +8,11 @@ server:
   servlet:
     context-path: /  # 应用根路径
 
+# 微信小程序配置
+wx:
+  appid: wx6c86e9c57783bbb0  # 与前端project.config.json中的appid保持一致
+  secret: 9fbb16113d4e2cc252251a88b9a4a295  # 测试用secret，真实场景需替换
+
 # MyBatis Plus配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml  # MyBatis XML映射文件位置

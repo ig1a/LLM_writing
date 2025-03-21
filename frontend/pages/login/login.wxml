@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="logo-container">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="title">书籍RAG聊天</text>
+  </view>
+  
+  <view class="login-container">
+    <text class="welcome-text">欢迎使用书籍RAG聊天应用</text>
+    <text class="desc-text">使用微信账号登录以体验全部功能</text>
+    
+    <button 
+      class="login-btn" 
+      type="primary" 
+      bindtap="login"
+      loading="{{isLoading}}">
+      微信登录
+    </button>
+  </view>
+  
+  <view class="footer">
+    <text class="copyright">版权所有 2025 书籍RAG聊天</text>
+  </view>
+</view>
