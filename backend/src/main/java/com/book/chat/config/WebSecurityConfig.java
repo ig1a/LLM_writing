@@ -17,6 +17,9 @@ import java.util.Arrays;
 /**
  * Spring Security配置类
  * 配置API访问权限和认证规则
+ * 
+ * 修改内容：
+ * 1. 允许聊天API无需认证访问（开发测试模式）
  */
 @Configuration
 @EnableWebSecurity
@@ -27,7 +30,7 @@ public class WebSecurityConfig {
 
     /**
      * 配置HTTP安全规则
-     * 允许微信登录和检查登录状态的API无需认证访问
+     * 允许微信登录和聊天API无需认证访问
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +46,8 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // 允许微信登录相关接口无需认证
                 .requestMatchers("/api/auth/**").permitAll()
+                // 允许聊天API无需认证（开发测试模式）
+                .requestMatchers("/api/chat/**").permitAll()
                 // 其他请求需要认证
                 .anyRequest().authenticated()
             )

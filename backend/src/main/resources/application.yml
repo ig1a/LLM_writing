@@ -40,6 +40,16 @@ app:
     secret: YourJwtSecretKeyHereMustBeAtLeast32BytesLong  # JWT密钥
     expiration: 86400000  # Token有效期，单位毫秒，默认24小时
   llm:
-    api-url: https://api.openai.com/v1/chat/completions  # LLM API地址
-    model: gpt-3.5-turbo  # 默认模型
+    # LLM服务提供商，可选值：deepseek, qwen
+    provider: deepseek
+    # DeepSeek API配置
+    deepseek:
+      api-url: https://api.deepseek.com/chat/completions  # 修正为完整的API路径
+      api-key: sk-449482b902174ba4be734c0ad8ea2863  # DeepSeek API密钥
+      model: deepseek-chat  # DeepSeek模型名称
+    # 通义千问API配置  
+    qwen:
+      api-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions  # 通义千问兼容模式API地址
+      api-key: your_qwen_api_key  # 通义千问API密钥
+      model: qwen-plus  # 通义千问模型名称
     timeout: 30000  # API调用超时时间，单位毫秒
