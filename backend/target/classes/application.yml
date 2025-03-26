@@ -44,7 +44,7 @@ app:
     provider: deepseek
     # DeepSeek API配置
     deepseek:
-      api-url: https://api.deepseek.com/chat/completions  # 修正为完整的API路径
+      api-url: https://api.deepseek.com/chat/completions  # 根据文档修改回原API地址
       api-key: sk-449482b902174ba4be734c0ad8ea2863  # DeepSeek API密钥
       model: deepseek-chat  # DeepSeek模型名称
     # 通义千问API配置  
