@@ -207,4 +207,19 @@ public class AuthServiceImpl implements AuthService {
             return result;
         }
     }
+
+    /**
+     * 获取会话信息
+     * @param token 登录token
+     * @return 会话信息Map，或null如果token无效
+     */
+    public Map<String, Object> getSessionInfo(String token) {
+        // 验证token是否存在
+        if (token == null || !sessions.containsKey(token)) {
+            return null;
+        }
+        
+        // 返回会话信息
+        return sessions.get(token);
+    }
 }

@@ -6,11 +6,13 @@ com\book\chat\dto\BookDTO.class
 com\book\chat\controller\AuthController.class
 com\book\chat\service\impl\AuthServiceImpl.class
 com\book\chat\config\CorsConfig$1.class
+com\book\chat\controller\BookController.class
 com\book\chat\BookChatApplication.class
 com\book\chat\entity\ChatMessage.class
 com\book\chat\service\AuthService.class
 com\book\chat\config\CorsConfig.class
 com\book\chat\dto\LoginResponse.class
 com\book\chat\dto\UserDTO.class
+com\book\chat\config\JwtTokenFilter.class
 com\book\chat\dto\WxLoginRequest.class
 com\book\chat\entity\Book.class

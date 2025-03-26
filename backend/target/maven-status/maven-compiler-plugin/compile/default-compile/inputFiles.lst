@@ -1,6 +1,8 @@
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\dto\RegisterRequest.java
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\entity\User.java
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\config\CorsConfig.java
+D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\config\JwtTokenFilter.java
+D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\controller\BookController.java
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\config\WebSecurityConfig.java
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\service\AuthService.java
 D:\LLM_novel\LLM_writing\backend\src\main\java\com\book\chat\dto\LoginResponse.java
