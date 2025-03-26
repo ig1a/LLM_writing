@@ -6,35 +6,64 @@
 
 - **扫码识别**：支持扫描书籍条形码，自动识别书籍信息
 - **智能对话**：基于书籍内容的RAG技术，提供智能问答服务
+- **微信登录**：通过微信授权快速登录，无需额外注册
 - **Material Design**：采用现代化的Material Design设计风格
-- **Vue3技术栈**：使用Vue3框架开发，提供流畅的用户体验
+- **跨平台兼容**：适配不同尺寸设备，提供流畅的用户体验
 
 ## 项目结构
 
 ```
 frontend/
-├── README.md                 # 项目说明文档
-├── project.config.json       # 项目配置文件
-├── app.js                    # 小程序入口文件
-├── app.json                  # 小程序全局配置
-├── app.wxss                  # 小程序全局样式
-├── utils/                    # 工具函数目录
-│   └── request.js            # 网络请求封装
-├── components/               # 组件目录
-│   ├── chat-bubble/          # 聊天气泡组件
-│   └── loading/              # 加载组件
-└── pages/                    # 页面目录
-    ├── index/                # 首页(初始界面)
-    │   ├── index.js          # 首页逻辑
-    │   ├── index.wxml        # 首页结构
-    │   ├── index.wxss        # 首页样式
-    │   └── index.json        # 首页配置
-    ├── scanner/              # 扫码页面
+├── README.md                     # 项目说明文档
+├── README-BackendIntegration.md  # 前后端对接指南
+├── project.config.json           # 项目配置文件
+├── app.js                        # 小程序入口文件(含登录逻辑)
+├── app.json                      # 小程序全局配置
+├── app.wxss                      # 小程序全局样式
+├── doc/                          # 文档目录
+│   ├── 微信登录实现.md            # 微信登录实现文档
+│   └── 微信扫一扫.md              # 扫码功能实现文档
+├── images/                       # 图片资源
+│   ├── ai_avatar.png             # AI头像
+│   ├── user_avatar.png           # 用户头像
+│   ├── default_book.png          # 默认书籍封面
+│   ├── logo.png                  # 应用logo
+│   └── share-image.png           # 分享图片
+├── utils/                        # 工具函数目录
+│   └── request.js                # 网络请求封装
+├── components/                   # 组件目录
+│   ├── chat-bubble/              # 聊天气泡组件
+│   │   ├── chat-bubble.js
+│   │   ├── chat-bubble.wxml
+│   │   ├── chat-bubble.wxss
+│   │   └── chat-bubble.json
+│   └── loading/                  # 加载组件
+│       ├── loading.js
+│       ├── loading.wxml
+│       ├── loading.wxss
+│       └── loading.json
+└── pages/                        # 页面目录
+    ├── login/                    # 登录页面
+    │   ├── login.js              # 登录逻辑
+    │   ├── login.wxml            # 登录页面结构
+    │   ├── login.wxss            # 登录页面样式
+    │   └── login.json            # 登录页面配置
+    ├── index/                    # 首页(初始界面)
+    │   ├── index.js              # 首页逻辑
+    │   ├── index.wxml            # 首页结构
+    │   ├── index.wxss            # 首页样式
+    │   └── index.json            # 首页配置
+    ├── scanner/                  # 扫码页面
     │   ├── scanner.js
     │   ├── scanner.wxml
     │   ├── scanner.wxss
     │   └── scanner.json
-    └── chat/                 # 聊天页面
+    ├── user/                     # 用户页面
+    │   ├── user.js
+    │   ├── user.wxml
+    │   ├── user.wxss
+    │   └── user.json
+    └── chat/                     # 聊天页面
         ├── chat.js
         ├── chat.wxml
         ├── chat.wxss
@@ -60,9 +89,15 @@ frontend/
 
 ### 功能测试途径
 
+#### 登录测试
+- 打开小程序，自动跳转到登录页面
+- 点击"微信登录"按钮，授权登录
+- 验证登录成功后是否能正确跳转到首页
+
 #### 首页测试
 - 打开小程序，检查首页UI显示是否正常
 - 点击"开始扫码"按钮，应跳转到扫码页面
+- 点击个人中心图标，验证是否能显示用户信息
 
 #### 扫码页面测试
 - 手动输入ISBN：在输入框中输入上述任一ISBN码，点击"确认"按钮
@@ -79,7 +114,7 @@ frontend/
 ### 开发者测试数据
 如需在无API环境下测试，可在utils/request.js中添加mock数据进行功能验证。
 
-前后端请参考README-BackendIntegration.md！那个文档里有详细说明！
+前后端集成指南请参考README-BackendIntegration.md，其中包含详细的集成步骤和配置说明。
 
 ## 开发环境设置
 
@@ -99,72 +134,52 @@ frontend/
    - 点击左上角的"+"号，选择"导入项目"
    - 项目目录选择`frontend`文件夹
    - AppID填写您的小程序AppID（如果没有，可以选择"测试号"）
-   - 点击"导入"按钮
 
-3. **配置后端服务地址**
-   - 打开`utils/config.js`文件
-   - 修改`API.BASE_URL`为您的后端服务地址：
-     ```javascript
-     // 修改为您的后端服务器地址
-     BASE_URL: 'http://localhost:8080',
-     ```
-     如果是在本地开发，可以保持默认值
+3. **配置后端连接**
+   - 打开`utils/request.js`
+   - 设置`BASE_URL`为后端服务地址
+   - 调整`TEST_MODE`的值（开发阶段可设为true，生产环境设为false）
 
-4. **编译和预览**
-   - 点击工具栏上的"编译"按钮
-   - 左侧会显示小程序模拟器，可以在上面测试功能
-   - 也可以点击工具栏上的"预览"按钮，生成二维码，用微信扫码在手机上预览
+4. **配置微信登录**
+   - 确保`app.js`中的登录逻辑已正确实现
+   - 在后端的`application.yml`中配置正确的微信小程序appid和secret
 
-### 调试技巧
+5. **运行项目**
+   - 点击开发者工具中的"编译"按钮
+   - 项目将启动并显示在模拟器中
 
-1. **使用控制台调试**
-   - 开发者工具右侧有"调试器"面板
-   - "Console"标签页可以查看日志输出
-   - 在代码中使用`console.log()`输出调试信息
+6. **调试技巧**
+   - 使用控制台调试：开发者工具右侧"调试器"面板的"Console"标签页可查看日志
+   - 使用断点调试：在代码编辑器中点击行号，设置断点进行调试
+   - 使用网络监控：在"Network"标签页监控API请求
 
-2. **网络请求调试**
-   - "Network"标签页可以监控所有网络请求
-   - 可以查看请求参数、响应数据和状态码
-
-3. **存储调试**
-   - "Storage"标签页可以查看和修改本地存储数据
-   - 包括本地缓存、用户数据等
-
-4. **使用测试模式**
-   - 在`utils/config.js`中设置`DEV.TEST_MODE = true`
-   - 这将使用预设的测试数据，而不是真实API调用
-
-### 常见问题
-
-1. **无法连接后端服务**
-   - 确保后端服务已启动
-   - 检查`config.js`中的`BASE_URL`是否正确
-   - 确认本地网络连接正常
-
-2. **微信登录失败**
-   - 确保在开发者工具中使用了正确的AppID
-   - 检查后端服务的微信配置是否正确
-
-3. **扫码功能不工作**
-   - 在真机调试时，确保已经授权相机权限
-   - 在模拟器中，可以手动输入ISBN进行测试
-
-4. **界面显示异常**
-   - 检查CSS样式和适配问题
-   - 尝试在不同尺寸的设备上测试
-
-## 部署指南
+## 打包部署
 
 ### 上传代码
-1. 在微信开发者工具中点击"上传"按钮
+1. 点击开发者工具右上角的"上传"按钮
 2. 填写版本号和项目备注
-3. 点击"上传"
+3. 确认上传
 
 ### 提交审核
 1. 登录[微信公众平台](https://mp.weixin.qq.com/)
-2. 进入"开发管理" -> "开发版本管理"
-3. 选择要提交的版本，点击"提交审核"
-4. 填写相关信息并提交
+2. 进入"版本管理"页面
+3. 选择已上传的版本，点击"提交审核"
+4. 填写相关信息，完成审核提交
 
-### 发布上线
-审核通过后，可以在微信公众平台将小程序发布到线上环境。
+## 贡献指南
+
+欢迎对本项目做出贡献！请遵循以下步骤：
+
+1. Fork本仓库
+2. 创建新分支 (`git checkout -b feature/your-feature`)
+3. 提交更改 (`git commit -m 'Add some feature'`)
+4. 推送到分支 (`git push origin feature/your-feature`)
+5. 创建Pull Request
+
+## 版权和许可
+本项目采用MIT许可证。详情请参见[LICENSE](LICENSE)文件。
+
+## 联系方式
+如有任何问题或建议，请联系项目维护者：
+- 邮箱：contact@example.com
+- 微信：wxid_example

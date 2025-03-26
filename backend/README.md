@@ -9,11 +9,13 @@
 - **MySQL**: 数据持久化
 - **MyBatis Plus**: ORM框架
 - **JWT**: 基于Token的认证
+- **微信小程序登录**: 用户通过微信授权登录
 - **OpenAPI兼容接口**: 支持LLM API调用
 
 ## 功能模块
 
 - **用户管理**: 用户注册、登录、认证
+- **微信登录**: 通过微信小程序授权快速登录
 - **书籍管理**: 书籍信息检索与存储
 - **聊天管理**: 对话历史记录存储与检索
 - **LLM集成**: 兼容OpenAI API进行聊天生成
@@ -43,6 +45,8 @@ backend/
 │   └── test/                    # 测试代码
 ├── script/                      # 脚本文件
 │   └── db/                      # 数据库脚本
+└── doc/                         # 文档目录
+    └── QA.md                    # 常见问题解答
 ```
 
 ## API接口说明
@@ -51,6 +55,8 @@ backend/
 - POST `/api/auth/register` - 用户注册
 - POST `/api/auth/login` - 用户登录
 - GET `/api/auth/userinfo` - 获取用户信息
+- POST `/api/auth/wx-login` - 微信小程序登录
+- GET `/api/auth/check-login` - 检查登录状态
 
 ### 书籍信息接口
 - GET `/api/book/info?barcode={isbn}` - 获取书籍信息
@@ -58,6 +64,29 @@ backend/
 ### 聊天消息接口
 - POST `/api/chat/message` - 发送聊天消息
 - GET `/api/chat/history?bookId={id}&page={page}` - 获取聊天历史
+
+## 微信登录实现
+
+### 前端流程
+1. 小程序调用 `wx.login()` 获取临时登录凭证 code
+2. 将 code 发送到后端的 `/api/auth/wx-login` 接口
+3. 接收并存储后端返回的 token
+4. 后续请求在 header 中添加 Authorization: Bearer {token}
+
+### 后端流程
+1. 接收前端发送的 code
+2. 使用 code 、appid 和 secret 请求微信接口获取 openid
+3. 根据 openid 创建或更新用户信息
+4. 生成 JWT token 返回给前端
+5. 维护用户登录状态
+
+### 配置说明
+微信小程序配置位于 `application.yml` 文件中：
+```yaml
+wx:
+  appid: your_appid  # 微信小程序appid
+  secret: your_secret  # 微信小程序secret
+```
 
 ## 数据库设计
 
@@ -67,6 +96,7 @@ backend/
 - password: 密码(加密存储)
 - nickname: 昵称
 - avatar: 头像URL
+- openid: 微信用户唯一标识
 - create_time: 创建时间
 - update_time: 更新时间
 
@@ -99,9 +129,10 @@ backend/
 ### 本地开发步骤
 1. 克隆仓库
 2. 配置数据库连接(application-dev.yml)
-3. 运行数据库脚本(script/db/)
-4. 使用Maven编译项目: `mvn clean package`
-5. 运行应用: `java -jar target/book-chat-backend.jar`
+3. 配置微信小程序appid和secret(application.yml)
+4. 运行数据库脚本(script/db/)
+5. 使用Maven编译项目: `mvn clean package`
+6. 运行应用: `java -jar target/book-chat-backend.jar`
 
 ## 部署指南
 
@@ -114,4 +145,5 @@ backend/
 1. 编译打包: `mvn clean package -P prod`
 2. 将JAR文件及配置上传到服务器
 3. 修改配置文件中的数据库连接和API密钥
-4. 运行应用: `java -jar book-chat-backend.jar --spring.profiles.active=prod`
+4. 修改微信小程序的正式环境appid和secret
+5. 运行应用: `java -jar book-chat-backend.jar --spring.profiles.active=prod`
